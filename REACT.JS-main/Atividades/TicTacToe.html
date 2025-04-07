@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+	  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+	  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+	  <link rel="Stylesheet" href="TicTacToe.CSS" />
+
+  </head>
+  <body>
+
+	<div id="root"></div>
+
+	<script type="text/babel">
+		class Square extends React.Component {
+		  render() {
+			return (
+			  <button className="square" onClick={this.props.onClick}>
+				{this.props.value}
+			  </button>
+			);
+		  }
+		}
+  
+		class Board extends React.Component {
+		  constructor(props) {
+			super(props);
+			this.originalValues = Array.from({ length: 9 }, (_, i) => i); 
+			this.state = {
+			  squares: [...this.originalValues],
+			};
+		  }
+  
+		  handleClick(i) {
+			const squares = [...this.state.squares];
+			squares[i] = squares[i] === 'X' ? this.originalValues[i] : 'X'; 
+			this.setState({ squares });
+		  }
+  
+		  renderSquare(i) {
+			return (
+			  <Square
+				value={this.state.squares[i]}
+				onClick={() => this.handleClick(i)}
+			  />
+			);
+		  }
+  
+		  render() {
+			const status = 'Próximo Jogador: X';
+  
+			return (
+			  <div>
+				<div className="status">{status}</div>
+				<div className="board-row">
+				  {this.renderSquare(0)}
+				  {this.renderSquare(1)}
+				  {this.renderSquare(2)}
+				</div>
+				<div className="board-row">
+				  {this.renderSquare(3)}
+				  {this.renderSquare(4)}
+				  {this.renderSquare(5)}
+				</div>
+				<div className="board-row">
+				  {this.renderSquare(6)}
+				  {this.renderSquare(7)}
+				  {this.renderSquare(8)}
+				</div>
+			  </div>
+			);
+		  }
+		}
+  
+		class Game extends React.Component {
+		  render() {
+			return (
+			  <div className="game">
+				<div className="game-board">
+				  <Board />
+				</div>
+			  </div>
+			);
+		  }
+		}
+  
+		ReactDOM.render(<Game />, document.getElementById('root'));
+	  </script>
+  </body>
+</html>
